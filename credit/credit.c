@@ -5,7 +5,6 @@ bool isValidCardNumber(const long cardNumber);
 int countDigits(long cardNumber);
 int startsWith(long cardNumber);
 
-
 int main(void)
 {
     // Prompt for the card number
@@ -15,12 +14,12 @@ int main(void)
     if (countDigits(cardNumber) < 13)
     {
         printf("INVALID\n");
+        return 0;
     }
 
     // If it's AMEX
-    if (countDigits(cardNumber) == 15 &&
-    (startsWith(cardNumber) == 34 ||
-    startsWith(cardNumber) == 37))
+    if (countDigits(cardNumber) == 15 && (startsWith(cardNumber) == 34 || startsWith(cardNumber) == 37) &&
+        isValidCardNumber(cardNumber))
     {
         printf("AMEX\n");
         return 0;
@@ -28,30 +27,29 @@ int main(void)
 
     // If it's Master Card
     if (countDigits(cardNumber) == 16 &&
-    (startsWith(cardNumber) == 51 ||
-    startsWith(cardNumber) == 52 ||
-    startsWith(cardNumber) == 53 ||
-    startsWith(cardNumber) == 54 ||
-    startsWith(cardNumber) == 55))
+        (startsWith(cardNumber) == 51 || startsWith(cardNumber) == 52 || startsWith(cardNumber) == 53 ||
+         startsWith(cardNumber) == 54 || startsWith(cardNumber) == 55) &&
+        isValidCardNumber(cardNumber))
     {
         printf("MASTERCARD\n");
         return 0;
     }
 
     // If it's VISA
-    if ((countDigits(cardNumber) == 16 ||
-    countDigits(cardNumber) == 13) &&
-    (startsWith(cardNumber) >= 40 && startsWith(cardNumber) <= 49))
+    if ((countDigits(cardNumber) == 16 || countDigits(cardNumber) == 13) &&
+        (startsWith(cardNumber) >= 40 && startsWith(cardNumber) <= 49) && isValidCardNumber(cardNumber))
     {
         printf("VISA\n");
         return 0;
     }
 
     printf("INVALID\n");
+    return 0;
 }
 
 // Returns the starting 2 digits
-int startsWith(long cardNumber) {
+int startsWith(long cardNumber)
+{
     int last = 0;
     int secondLast = 0;
     while (cardNumber >= 1)
@@ -68,7 +66,8 @@ int startsWith(long cardNumber) {
 int countDigits(long cardNumber)
 {
     int count = 0;
-    while (cardNumber >= 1) {
+    while (cardNumber >= 1)
+    {
         count += 1;
         cardNumber /= 10;
     }
@@ -88,12 +87,13 @@ bool isValidCardNumber(const long cardNumber)
         if (count % 2 == 0)
         {
             long digit = verifyNumber % 10;
-            //printf("%li\n", digit);
+            // printf("%li\n", digit);
             digit = digit * 2;
-            //printf("%li\n", digit);
+            // printf("%li\n", digit);
 
             // If it has more than 1 digit
-            if (digit > 9) {
+            if (digit > 9)
+            {
                 sum = sum + (digit % 10);
                 digit = digit / 10;
                 sum = sum + (digit % 10);
@@ -107,7 +107,7 @@ bool isValidCardNumber(const long cardNumber)
         count += 1;
     }
 
-    //printf("%li\n", sum);
+    // printf("%li\n", sum);
 
     verifyNumber = cardNumber;
     count = 1;
@@ -115,7 +115,8 @@ bool isValidCardNumber(const long cardNumber)
     // Adding the previous sum to the digits that were not processed before
     while (verifyNumber >= 1)
     {
-        if (count % 2 != 0) {
+        if (count % 2 != 0)
+        {
             long digit = verifyNumber % 10;
             sum = sum + digit;
         }
@@ -123,7 +124,7 @@ bool isValidCardNumber(const long cardNumber)
         count += 1;
     }
 
-    //printf("%li\n", sum);
+    // printf("%li\n", sum);
 
     return sum % 10 == 0;
 }
